@@ -28,6 +28,6 @@ if __name__ == '__main__':
 
     storeActions = PetStoreActions()
 
-    #storeActions.createUser(userData)
+    storeActions.createUser(userData)
     storeActions.getUserByName("shai")
     storeActions.deleteUserByName("shai")
