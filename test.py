@@ -1,16 +1,17 @@
 from FacebookAPI import main
 import nose
 
-class test_main():
 
+class test_main():
 
     @classmethod
     def setUpClass(cls):
-
         cls.userData = {"id": 0, "username": "shai", "firstName": "Shai", "lastName": "Edy", "email": "shai@gmail.com",
-                    "password": "12345", "phone": "050-123-4567", "userStatus": 0, 'key': 'value'}
+                        "password": "12345", "phone": "050-123-4567", "userStatus": 0, 'key': 'value'}
 
         cls.storeActions = main.PetStoreActions()
+
+        cls.userDataAsString = '{"id":0,"username":"shai","firstName":"Shai","lastName":"Edy","email":"shai@gmail.com","password":"12345","phone":"050-123-4567","userStatus":0}'
 
     def setup(self):
         pass
@@ -23,14 +24,36 @@ class test_main():
         pass
 
     def test_createUser(self):
-        #self.userData
         ref = self.storeActions.getUserByName("shai")
-        assert (ref.text != u'')
+        assert ref.ok == False
 
-    #def test_getUserByName:
+        self.storeActions.createUser(self.userData)
 
-    #def test_deleteUserByName:
+        ref = self.storeActions.getUserByName("shai")
+        assert ref.ok == True
 
+        self.storeActions.deleteUserByName("shai")
+
+    def test_getUserByName(self):
+        ref = self.storeActions.getUserByName("shai")
+        assert ref.ok == False
+
+        self.storeActions.createUser(self.userData)
+
+        ref = self.storeActions.getUserByName("shai")
+        assert ref.ok == True
+        assert ref.text == self.userDataAsString
+
+        self.storeActions.deleteUserByName("shai")
+
+    def test_deleteUserByName(self):
+        ref = self.storeActions.deleteUserByName("shai")
+        assert ref.ok == False
+
+        self.storeActions.createUser(self.userData)
+
+        ref = self.storeActions.deleteUserByName("shai")
+        assert ref.ok == True
 
 
 if __name__ == '__main__':

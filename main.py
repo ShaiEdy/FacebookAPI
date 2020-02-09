@@ -7,7 +7,7 @@ class PetStoreActions:
 
     def createUser(self, userData):
         res = requests.post('https://petstore.swagger.io/v2/user', None, userData)
-        print res.text
+        #print res.text
         return res
 
     def getUserByName(self, username):
